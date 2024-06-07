@@ -20,10 +20,19 @@ int main()
         x1.push_back(-B / (2 * A));
     }
     for (auto s : x1) {
-        y1.push_back(-(2 * a1 * s + d1) / c1);
+        if (x1.size() > 1) {
+            y1.push_back(-(2 * a1 * s + d1) / c1);
+        } else {
+            y1.push_back(sqrt((-4 * a1 * b1 * pow(s, 2) - 4 * b1 * d1 * s - 4 * b1 * f1 + pow(e1, 2)) / (4 * pow(b1, 2))) - e1 / (2 * b1));
+            y1.push_back(-sqrt((-4 * a1 * b1 * pow(s, 2) - 4 * b1 * d1 * s - 4 * b1 * f1 + pow(e1, 2)) / (4 * pow(b1, 2))) - e1 / (2 * b1));
+        }
     }
-    for (int i = 0; i != x1.size(); i++) {
-        cout << "(" << x1.at(i) << ", " << y1.at(i) << ")" << endl;
+    for (int i = 0; i != y1.size(); i++) {
+        if (x1.size() > 1) {
+            cout << "(" << x1.at(i) << ", " << y1.at(i) << ")" << endl;
+        } else {
+            cout << "(" << x1.at(0) << ", " << y1.at(i) << ")" << endl;
+        }
     }
     system("pause");
 }
