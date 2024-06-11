@@ -6,6 +6,17 @@
 #include <cstdlib>
 using namespace std;
 
+vector<pair<double, double>>calcExtremePoint(double, double, double, double, double, double);
+
+int main()
+{
+    vector<pair<double, double>> extreme_points0 = calcExtremePoint(3.0, 2.0, 0.0, 5.0, 1.0, -4.0);
+    for (auto s : extreme_points0) {
+        cout << ".(" << s.first << ", " << s.second << ")" << endl;
+    }
+    system("pause");
+}
+
 vector<pair<double, double>>calcExtremePoint(double A, double B, double C, double D, double E, double F)
 {
     double a = 4 * A * A * B - A * C * C;
@@ -29,13 +40,4 @@ vector<pair<double, double>>calcExtremePoint(double A, double B, double C, doubl
         extreme_points.push_back(result);
     }
     return extreme_points;
-}
-
-int main()
-{
-    vector<pair<double, double>> extreme_points0 = calcExtremePoint(3.0, 2.0, 0.0, 5.0, 1.0, -4.0);
-    for (auto s : extreme_points0) {
-        cout << ".(" << s.first << ", " << s.second << ")" << endl;
-    }
-    system("pause");
 }
