@@ -6,7 +6,7 @@
 #include <cstdlib>
 using namespace std;
 
-vector<pair<double, double>>calcExtremePoint(double, double, double, double, double, double);
+vector<pair<double, double>> calcExtremePoint(double, double, double, double, double, double);
 
 int main()
 {
@@ -17,7 +17,7 @@ int main()
     system("pause");
 }
 
-vector<pair<double, double>>calcExtremePoint(double A, double B, double C, double D, double E, double F)
+vector<pair<double, double>> calcExtremePoint(double A, double B, double C, double D, double E, double F)
 {
     double a = 4 * A * A * B - A * C * C;
     double b = 4 * A * B * D - 2 * A * C * E;
