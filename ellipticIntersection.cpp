@@ -21,29 +21,17 @@ int main()
 vector<pair<double, double>> calcExtremePoint(double A, double B, double C, double D, double E, double F)
 {
     vector<double> solution = solveQuadraticEquation(4 * A * A * B - A * C * C, 4 * A * B * D - 2 * A * C * E, B * D * D - C * D * E + C * C * F);
-    pair<double, double> result;
     vector<pair<double, double>> extreme_points;
     if (solution.size() == 2) {
-        result.first = solution.at(0);
-        result.second = -(2 * A * result.first + D) / C;
-        extreme_points.push_back(result);
-        result.first = solution.at(1);
-        result.second = -(2 * A * result.first + D) / C;
-        extreme_points.push_back(result);
+        extreme_points.push_back(make_pair(solution.at(0), -(2 * A * solution.at(0) + D) / C));
+        extreme_points.push_back(make_pair(solution.at(1), -(2 * A * solution.at(1) + D) / C));
     } else if (solution.size() == 1) {
-        result.first = solution.at(0);
-        result.second = sqrt((-4 * A * B * result.first * result.first - 4 * B * D * result.first - 4 * B * F + E * E) / (4 * B * B)) - E / (2 * B);
-        extreme_points.push_back(result);
-        result.second = -sqrt((-4 * A * B * result.first * result.first - 4 * B * D * result.first - 4 * B * F + E * E) / (4 * B * B)) - E / (2 * B);
-        extreme_points.push_back(result);
+        extreme_points.push_back(make_pair(solution.at(0), sqrt((-4 * A * B * solution.at(0) * solution.at(0) - 4 * B * D * solution.at(0) - 4 * B * F + E * E) / (4 * B * B)) - E / (2 * B)));
+        extreme_points.push_back(make_pair(solution.at(0), -sqrt((-4 * A * B * solution.at(0) * solution.at(0) - 4 * B * D * solution.at(0) - 4 * B * F + E * E) / (4 * B * B)) - E / (2 * B)));
     }
     solution = solveQuadraticEquation(4 * A * B - C * C, 4 * B * D - 2 * C * E, 4 * B * F - E * E);
-    result.first = solution.at(0);
-    result.second = -(C * result.first + E) / (2 * B);
-    extreme_points.push_back(result);
-    result.first = solution.at(1);
-    result.second = -(C * result.first + E) / (2 * B);
-    extreme_points.push_back(result);
+    extreme_points.push_back(make_pair(solution.at(0), -(C * solution.at(0) + E) / (2 * B)));
+    extreme_points.push_back(make_pair(solution.at(1), -(C * solution.at(1) + E) / (2 * B)));
     return extreme_points;
 }
 
