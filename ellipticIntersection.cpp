@@ -17,6 +17,7 @@ int main()
     cin >> a1 >> b1 >> c1 >> d1 >> e1 >> f1;
     if (!isEllipse(a1, b1, c1, d1, e1, f1)) {
         cout << "参数无法构成椭圆\n";
+        system("pause");
         return -1;
     }
     vector<pair<double, double>> extreme_points0 = calcExtremePoint(a1, b1, c1, d1, e1, f1);
