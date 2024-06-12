@@ -6,16 +6,37 @@
 #include <cstdlib>
 using namespace std;
 
+bool isEllipse(double, double, double, double, double, double);
 vector<pair<double, double>> calcExtremePoint(double, double, double, double, double, double);
 vector<double> solveQuadraticEquation(double, double, double);
 
 int main()
 {
-    vector<pair<double, double>> extreme_points0 = calcExtremePoint(3.0, 2.0, 1.0, 5.0, 1.0, -4.0);
+    double a1 = 3.0, b1 = 2.0, c1 = 1.0, d1 = 5.0, e1 = 1.0, f1 = -4.0;
+    if (!isEllipse(a1, b1, c1, d1, e1, f1)) {
+        cout << "参数无法构成椭圆\n";
+        return -1;
+    }
+    vector<pair<double, double>> extreme_points0 = calcExtremePoint(a1, b1, c1, d1, e1, f1);
     for (auto s : extreme_points0) {
         cout << ".(" << s.first << ", " << s.second << ")" << endl;
     }
     system("pause");
+}
+
+bool isEllipse(double A, double B, double C, double D, double E, double F)
+{
+    double P = D / 2, Q = E / 2, I1, I2, I3;
+    swap(B, C);
+    B /= 2;
+    I1 = A + C;
+    I2 = A * C - B * B;
+    I3 = A * C * F + B * Q * P + P * B * Q - P * C * P - B * B * F - A * Q * Q;
+    if (I2 > 1e-6 && abs(I3) > 1e-6 && I1 * I3 < -1e-6) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 vector<pair<double, double>> calcExtremePoint(double A, double B, double C, double D, double E, double F)
