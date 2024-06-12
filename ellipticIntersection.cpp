@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <ostream>
 #include <utility>
@@ -9,6 +10,7 @@ using namespace std;
 bool isEllipse(double, double, double, double, double, double);
 vector<pair<double, double>> calcExtremePoint(double, double, double, double, double, double);
 vector<double> solveQuadraticEquation(double, double, double);
+vector<pair<double, double>> sortExtremePoint(vector<pair<double, double>>);
 
 int main()
 {
@@ -21,6 +23,7 @@ int main()
         return -1;
     }
     vector<pair<double, double>> extreme_points0 = calcExtremePoint(a, b, c, d, e, f);
+    extreme_points0 = sortExtremePoint(extreme_points0);
     for (auto s : extreme_points0) {
         cout << ".(" << s.first << ", " << s.second << ")" << endl;
     }
@@ -70,4 +73,12 @@ vector<double> solveQuadraticEquation(double a, double b, double c)
         result.push_back(-b / (2 * a));
     }
     return result;
+}
+
+vector<pair<double, double>> sortExtremePoint(vector<pair<double, double>> extreme_points)
+{
+    iter_swap(extreme_points.begin(), max_element(extreme_points.begin(), extreme_points.end(), [](pair<double, double> a, pair<double, double> b) { return a.second < b.second; }));
+    iter_swap(extreme_points.begin() + 1, max_element(extreme_points.begin() + 1, extreme_points.end(), [](pair<double, double> a, pair<double, double> b) { return a.first < b.first; }));
+    iter_swap(extreme_points.begin() + 2, min_element(extreme_points.begin() + 2, extreme_points.end(), [](pair<double, double> a, pair<double, double> b) { return a.second < b.second; }));
+    return extreme_points;
 }
