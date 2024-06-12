@@ -12,7 +12,9 @@ vector<double> solveQuadraticEquation(double, double, double);
 
 int main()
 {
-    double a1 = 3.0, b1 = 2.0, c1 = 1.0, d1 = 5.0, e1 = 1.0, f1 = -4.0;
+    double a1, b1, c1, d1, e1, f1;
+    cout << "请输入方程Ax^2+By^2+Cxy+Dx+Ey+F=0中的参数，以空格为分隔\n";
+    cin >> a1 >> b1 >> c1 >> d1 >> e1 >> f1;
     if (!isEllipse(a1, b1, c1, d1, e1, f1)) {
         cout << "参数无法构成椭圆\n";
         return -1;
