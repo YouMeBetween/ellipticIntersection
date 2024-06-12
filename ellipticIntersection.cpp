@@ -12,15 +12,15 @@ vector<double> solveQuadraticEquation(double, double, double);
 
 int main()
 {
-    double a1, b1, c1, d1, e1, f1;
+    double a, b, c, d, e, f;
     cout << "请输入方程Ax^2+By^2+Cxy+Dx+Ey+F=0中的参数，以空格为分隔\n";
-    cin >> a1 >> b1 >> c1 >> d1 >> e1 >> f1;
-    if (!isEllipse(a1, b1, c1, d1, e1, f1)) {
+    cin >> a >> b >> c >> d >> e >> f;
+    if (!isEllipse(a, b, c, d, e, f)) {
         cout << "参数无法构成椭圆\n";
         system("pause");
         return -1;
     }
-    vector<pair<double, double>> extreme_points0 = calcExtremePoint(a1, b1, c1, d1, e1, f1);
+    vector<pair<double, double>> extreme_points0 = calcExtremePoint(a, b, c, d, e, f);
     for (auto s : extreme_points0) {
         cout << ".(" << s.first << ", " << s.second << ")" << endl;
     }
