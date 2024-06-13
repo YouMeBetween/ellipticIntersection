@@ -14,6 +14,8 @@ bool isEllipse(double, double, double, double, double, double);
 vector<pair<double, double>> calcExtremePoint(double, double, double, double, double, double);
 vector<double> solveQuadraticEquation(double, double, double);
 vector<pair<double, double>> sortExtremePoint(vector<pair<double, double>>);
+bool isObviouslynotintersect(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>);
+vector<double> getRectangle(pair<pair<double, double>, pair<double, double>>);
 
 int main()
 {
@@ -25,6 +27,9 @@ int main()
     arcs_pairs = getArcsPairs(extreme_points0, extreme_points1);
     cout << "两个椭圆构成的弧对为\n";
     for (auto s : arcs_pairs) {
+        if (isObviouslynotintersect(s)) {
+            continue;
+        }
         cout << "[(" << s.first.first.first << ", " << s.first.first.second << "), (" << s.first.second.first << ", " << s.first.second.second << ")], [(" << s.second.first.first << ", " << s.second.first.second << "), (" << s.second.second.first << ", " << s.second.second.second<< ")]\n";
     }
     system("pause");
@@ -130,4 +135,26 @@ vector<pair<double, double>> sortExtremePoint(vector<pair<double, double>> extre
     iter_swap(extreme_points.begin() + 1, max_element(extreme_points.begin() + 1, extreme_points.end(), [](pair<double, double> a, pair<double, double> b) { return a.first < b.first; }));
     iter_swap(extreme_points.begin() + 2, min_element(extreme_points.begin() + 2, extreme_points.end(), [](pair<double, double> a, pair<double, double> b) { return a.second < b.second; }));
     return extreme_points;
+}
+
+bool isObviouslynotintersect(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pairs)
+{
+    vector<double> rectangle0, rectangle1;
+    rectangle0 = getRectangle(arcs_pairs.first);
+    rectangle1 = getRectangle(arcs_pairs.second);
+    if (rectangle0.at(0) < rectangle1.at(2) || rectangle0.at(1) < rectangle1.at(3) || rectangle0.at(2) > rectangle1.at(0) || rectangle0.at(3) > rectangle1.at(1)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+vector<double> getRectangle(pair<pair<double, double>, pair<double, double>> arc)
+{
+    vector<double> rectangle;
+    rectangle.push_back(max(arc.first.second, arc.second.second));
+    rectangle.push_back(max(arc.first.first, arc.second.first));
+    rectangle.push_back(min(arc.first.second, arc.second.second));
+    rectangle.push_back(min(arc.first.first, arc.second.first));
+    return rectangle;
 }
