@@ -37,6 +37,12 @@ vector<pair<double, double>> getEllipse(double &A, double &B, double &C, double 
     cout << "请输入第" << cont << "个椭圆的方程Ax^2+By^2+Cxy+Dx+Ey+F=0中的参数，以空格为分隔\n";
     while (true) {
         cin >> A >> B >> C >> D >> E >> F;
+        cin.sync();
+        if (cin.rdstate() != 0) {
+            cout << "输入异常，请重新输入\n";
+            cin.clear();
+            continue;
+        }
         if (!isEllipse(A, B, C, D, E, F)) {
             cout << "参数无法构成椭圆，请重新输入\n";
             continue;
