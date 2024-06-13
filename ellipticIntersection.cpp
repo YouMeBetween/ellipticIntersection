@@ -8,6 +8,8 @@
 using namespace std;
 
 vector<pair<double, double>> getEllipse(double &, double &, double &, double &, double &, double &);
+vector<pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>> getArcsPairs(vector<pair<double, double>>, vector<pair<double, double>>);
+vector<pair<pair<double, double>, pair<double, double>>> getArcs(vector<pair<double, double>>);
 bool isEllipse(double, double, double, double, double, double);
 vector<pair<double, double>> calcExtremePoint(double, double, double, double, double, double);
 vector<double> solveQuadraticEquation(double, double, double);
@@ -17,15 +19,13 @@ int main()
 {
     double A1, B1, C1, D1, E1, F1, A2, B2, C2, D2, E2, F2;
     vector<pair<double, double>> extreme_points0, extreme_points1;
+    vector<pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>> arcs_pairs;
     extreme_points0 = getEllipse(A1, B1, C1, D1, E1, F1);
     extreme_points1 = getEllipse(A2, B2, C2, D2, E2, F2);
-    cout << "第一个椭圆的极限位置坐标为\n";
-    for (auto s : extreme_points0) {
-        cout << "(" << s.first << ", " << s.second << ")\n";
-    }
-    cout << "第二个椭圆的极限位置坐标为\n";
-    for (auto s : extreme_points1) {
-        cout << "(" << s.first << ", " << s.second << ")\n";
+    arcs_pairs = getArcsPairs(extreme_points0, extreme_points1);
+    cout << "两个椭圆构成的弧对为\n";
+    for (auto s : arcs_pairs) {
+        cout << "[(" << s.first.first.first << ", " << s.first.first.second << "), (" << s.first.second.first << ", " << s.first.second.second << ")], [(" << s.second.first.first << ", " << s.second.first.second << "), (" << s.second.second.first << ", " << s.second.second.second<< ")]\n";
     }
     system("pause");
 }
@@ -53,6 +53,30 @@ vector<pair<double, double>> getEllipse(double &A, double &B, double &C, double 
     extreme_points = sortExtremePoint(extreme_points);
     cont++;
     return extreme_points;
+}
+
+vector<pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>> getArcsPairs(vector<pair<double, double>> extreme_points0, vector<pair<double, double>> extreme_points1)
+{
+    vector<pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>> arcs_pairs;
+    vector<pair<pair<double, double>, pair<double, double>>> arcs0, arcs1;
+    arcs0 = getArcs(extreme_points0);
+    arcs1 = getArcs(extreme_points1);
+    for (auto iter0 = arcs0.begin(); iter0 != arcs0.end(); iter0++) {
+        for (auto iter1 = arcs1.begin(); iter1 != arcs1.end(); iter1++) {
+            arcs_pairs.push_back(make_pair(*iter0, *iter1));
+        }
+    }
+    return arcs_pairs;
+}
+
+vector<pair<pair<double, double>, pair<double, double>>> getArcs(vector<pair<double, double>> extreme_points)
+{
+    vector<pair<pair<double, double>, pair<double, double>>> arcs;
+    for (auto iter = extreme_points.begin(); iter != extreme_points.end() - 1; iter++) {
+        arcs.push_back(make_pair(*iter, *(iter + 1)));
+    }
+    arcs.push_back(make_pair(extreme_points.back(), extreme_points.at(0)));
+    return arcs;
 }
 
 bool isEllipse(double A, double B, double C, double D, double E, double F)
