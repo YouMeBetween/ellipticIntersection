@@ -7,6 +7,7 @@
 #include <cstdlib>
 using namespace std;
 
+vector<pair<double, double>> getEllipse(double &, double &, double &, double &, double &, double &);
 bool isEllipse(double, double, double, double, double, double);
 vector<pair<double, double>> calcExtremePoint(double, double, double, double, double, double);
 vector<double> solveQuadraticEquation(double, double, double);
@@ -14,20 +15,38 @@ vector<pair<double, double>> sortExtremePoint(vector<pair<double, double>>);
 
 int main()
 {
-    double a, b, c, d, e, f;
-    cout << "请输入方程Ax^2+By^2+Cxy+Dx+Ey+F=0中的参数，以空格为分隔\n";
-    cin >> a >> b >> c >> d >> e >> f;
-    if (!isEllipse(a, b, c, d, e, f)) {
-        cout << "参数无法构成椭圆\n";
-        system("pause");
-        return -1;
-    }
-    vector<pair<double, double>> extreme_points0 = calcExtremePoint(a, b, c, d, e, f);
-    extreme_points0 = sortExtremePoint(extreme_points0);
+    double A1, B1, C1, D1, E1, F1, A2, B2, C2, D2, E2, F2;
+    vector<pair<double, double>> extreme_points0, extreme_points1;
+    extreme_points0 = getEllipse(A1, B1, C1, D1, E1, F1);
+    extreme_points1 = getEllipse(A2, B2, C2, D2, E2, F2);
+    cout << "第一个椭圆的极限位置坐标为\n";
     for (auto s : extreme_points0) {
-        cout << ".(" << s.first << ", " << s.second << ")" << endl;
+        cout << "(" << s.first << ", " << s.second << ")\n";
+    }
+    cout << "第二个椭圆的极限位置坐标为\n";
+    for (auto s : extreme_points1) {
+        cout << "(" << s.first << ", " << s.second << ")\n";
     }
     system("pause");
+}
+
+vector<pair<double, double>> getEllipse(double &A, double &B, double &C, double &D, double &E, double &F)
+{
+    static int cont = 1;
+    vector<pair<double, double>> extreme_points;
+    cout << "请输入第" << cont << "个椭圆的方程Ax^2+By^2+Cxy+Dx+Ey+F=0中的参数，以空格为分隔\n";
+    while (true) {
+        cin >> A >> B >> C >> D >> E >> F;
+        if (!isEllipse(A, B, C, D, E, F)) {
+            cout << "参数无法构成椭圆，请重新输入\n";
+            continue;
+        }
+        break;
+    }
+    extreme_points = calcExtremePoint(A, B, C, D, E, F);
+    extreme_points = sortExtremePoint(extreme_points);
+    cont++;
+    return extreme_points;
 }
 
 bool isEllipse(double A, double B, double C, double D, double E, double F)
