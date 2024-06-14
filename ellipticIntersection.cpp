@@ -15,22 +15,28 @@ vector<pair<double, double>> calcExtremePoint(double, double, double, double, do
 vector<double> solveQuadraticEquation(double, double, double);
 vector<pair<double, double>> sortExtremePoint(vector<pair<double, double>>);
 bool isObviouslynotintersect(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>);
+void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>, vector<pair<double, double>> &, double, double, double, double, double, double, double, double, double, double, double, double);
+double getFPFQ(double, double, double, double, double, double, double, double, double);
 vector<double> getRectangle(pair<pair<double, double>, pair<double, double>>);
+void addIntersection(vector<pair<double, double>> &, pair<double, double>);
 
 int main()
 {
     double A1, B1, C1, D1, E1, F1, A2, B2, C2, D2, E2, F2;
-    vector<pair<double, double>> extreme_points0, extreme_points1;
+    vector<pair<double, double>> extreme_points0, extreme_points1, intersections;
     vector<pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>> arcs_pairs;
     extreme_points0 = getEllipse(A1, B1, C1, D1, E1, F1);
     extreme_points1 = getEllipse(A2, B2, C2, D2, E2, F2);
     arcs_pairs = getArcsPairs(extreme_points0, extreme_points1);
-    cout << "两个椭圆构成的弧对为\n";
     for (auto s : arcs_pairs) {
         if (isObviouslynotintersect(s)) {
             continue;
         }
-        cout << "[(" << s.first.first.first << ", " << s.first.first.second << "), (" << s.first.second.first << ", " << s.first.second.second << ")], [(" << s.second.first.first << ", " << s.second.first.second << "), (" << s.second.second.first << ", " << s.second.second.second<< ")]\n";
+        calcIntersection(s, intersections, A1, B1, C1, D1, E1, F1, A2, B2, C2, D2, E2, F2);
+    }
+    cout << "两椭圆的交点坐标为\n";
+    for (auto s : intersections) {
+        cout << "(" << s.first << ", " << s.second << ")\n";
     }
     system("pause");
 }
@@ -149,6 +155,42 @@ bool isObviouslynotintersect(pair<pair<pair<double, double>, pair<double, double
     }
 }
 
+void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pair, vector<pair<double, double>> &intersections, double A0, double B0, double C0, double D0, double E0, double F0, double A1, double B1, double C1, double D1, double E1, double F1)
+{
+    double x0, x1, FP0, FP1, FQ0, FQ1, delta0, delta1;
+    x0 = max(min(arcs_pair.first.first.first, arcs_pair.first.second.first), min(arcs_pair.second.first.first, arcs_pair.second.second.first));
+    x1 = min(max(arcs_pair.first.first.first, arcs_pair.first.second.first), max(arcs_pair.second.first.first, arcs_pair.second.second.first));
+    FP0 = getFPFQ(x0, arcs_pair.first.first.second, arcs_pair.first.second.second, A0, B0, C0, D0, E0, F0);
+    FP1 = getFPFQ(x0, arcs_pair.second.first.second, arcs_pair.second.second.second, A1, B1, C1, D1, E1, F1);
+    FQ0 = getFPFQ(x1, arcs_pair.first.first.second, arcs_pair.first.second.second, A0, B0, C0, D0, E0, F0);
+    FQ1 = getFPFQ(x1, arcs_pair.second.first.second, arcs_pair.second.second.second, A1, B1, C1, D1, E1, F1);
+    delta0 = FP0 - FQ0;
+    delta1 = FP1 - FQ1;
+    if (abs(delta0) <= 1e-6) {
+        addIntersection(intersections, make_pair(x0, FP0));
+    } else if (abs(delta1) <= 1e-6) {
+        addIntersection(intersections, make_pair(x1, FP1));
+    }
+}
+
+double getFPFQ(double x, double ymin, double ymax, double A, double B, double C, double D, double E, double F)
+{
+    vector<double> solution;
+    solution = solveQuadraticEquation(B, C * x + E, A * x * x + D * x + F);
+    if (ymin > ymax) {
+        swap(ymin, ymax);
+    }
+    if (solution.size() == 2) {
+        if (solution.at(0) >= ymin && solution.at(1) <= ymax) {
+            return solution.at(0);
+        } else {
+            return solution.at(1);
+        }
+    } else {
+        return solution.at(0);
+    }
+}
+
 vector<double> getRectangle(pair<pair<double, double>, pair<double, double>> arc)
 {
     vector<double> rectangle;
@@ -157,4 +199,11 @@ vector<double> getRectangle(pair<pair<double, double>, pair<double, double>> arc
     rectangle.push_back(min(arc.first.second, arc.second.second));
     rectangle.push_back(min(arc.first.first, arc.second.first));
     return rectangle;
+}
+
+void addIntersection(vector<pair<double, double>> &intersections, pair<double, double> point)
+{
+    if (find(intersections.begin(), intersections.end(), point) == intersections.end()) {
+        intersections.push_back(point);
+    }
 }
