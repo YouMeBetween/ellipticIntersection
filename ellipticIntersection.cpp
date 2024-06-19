@@ -36,7 +36,7 @@ int main()
     }
     cout << "两椭圆的交点坐标为\n";
     for (auto s : intersections) {
-        cout << "(" << s.first << ", " << s.second << ")\n";
+        cout << "(" << (abs(s.first) <= 1e-6 ? 0 : s.first) << ", " << (abs(s.second) <= 1e-6 ? 0 : s.second) << ")\n";
     }
     system("pause");
 }
