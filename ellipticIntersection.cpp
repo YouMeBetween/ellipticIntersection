@@ -16,7 +16,7 @@ vector<double> solveQuadraticEquation(double, double, double);
 vector<pair<double, double>> sortExtremePoint(vector<pair<double, double>>);
 bool isObviouslynotintersect(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>);
 void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>, vector<pair<double, double>> &, double, double, double, double, double, double, double, double, double, double, double, double);
-double getFPFQ(double, double, double, double, double, double, double, double, double);
+double getFx(double, double, double, double, double, double, double, double, double);
 vector<double> getRectangle(pair<pair<double, double>, pair<double, double>>);
 void addIntersection(vector<pair<double, double>> &, pair<double, double>);
 
@@ -160,10 +160,10 @@ void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pai
     double x0, x1, FP0, FP1, FQ0, FQ1, delta0, delta1;
     x0 = max(min(arcs_pair.first.first.first, arcs_pair.first.second.first), min(arcs_pair.second.first.first, arcs_pair.second.second.first));
     x1 = min(max(arcs_pair.first.first.first, arcs_pair.first.second.first), max(arcs_pair.second.first.first, arcs_pair.second.second.first));
-    FP0 = getFPFQ(x0, arcs_pair.first.first.second, arcs_pair.first.second.second, A0, B0, C0, D0, E0, F0);
-    FQ0 = getFPFQ(x0, arcs_pair.second.first.second, arcs_pair.second.second.second, A1, B1, C1, D1, E1, F1);
-    FP1 = getFPFQ(x1, arcs_pair.first.first.second, arcs_pair.first.second.second, A0, B0, C0, D0, E0, F0);
-    FQ1 = getFPFQ(x1, arcs_pair.second.first.second, arcs_pair.second.second.second, A1, B1, C1, D1, E1, F1);
+    FP0 = getFx(x0, arcs_pair.first.first.second, arcs_pair.first.second.second, A0, B0, C0, D0, E0, F0);
+    FQ0 = getFx(x0, arcs_pair.second.first.second, arcs_pair.second.second.second, A1, B1, C1, D1, E1, F1);
+    FP1 = getFx(x1, arcs_pair.first.first.second, arcs_pair.first.second.second, A0, B0, C0, D0, E0, F0);
+    FQ1 = getFx(x1, arcs_pair.second.first.second, arcs_pair.second.second.second, A1, B1, C1, D1, E1, F1);
     delta0 = FP0 - FQ0;
     delta1 = FP1 - FQ1;
     if (abs(delta0) <= 1e-6) {
@@ -173,7 +173,7 @@ void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pai
     }
 }
 
-double getFPFQ(double x, double ymin, double ymax, double A, double B, double C, double D, double E, double F)
+double getFx(double x, double ymin, double ymax, double A, double B, double C, double D, double E, double F)
 {
     vector<double> solution;
     solution = solveQuadraticEquation(B, C * x + E, A * x * x + D * x + F);
