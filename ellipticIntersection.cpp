@@ -7,6 +7,8 @@
 #include <cstdlib>
 using namespace std;
 
+constexpr double ZERO = 1e-6;
+
 vector<pair<double, double>> getEllipse(double &, double &, double &, double &, double &, double &);
 vector<pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>> getArcsPairs(vector<pair<double, double>>, vector<pair<double, double>>);
 vector<pair<pair<double, double>, pair<double, double>>> getArcs(vector<pair<double, double>>);
@@ -36,7 +38,7 @@ int main()
     }
     cout << "两椭圆的交点坐标为\n";
     for (auto s : intersections) {
-        cout << "(" << (abs(s.first) <= 1e-6 ? 0 : s.first) << ", " << (abs(s.second) <= 1e-6 ? 0 : s.second) << ")\n";
+        cout << "(" << (abs(s.first) <= ZERO ? 0 : s.first) << ", " << (abs(s.second) <= ZERO ? 0 : s.second) << ")\n";
     }
     system("pause");
 }
@@ -98,7 +100,7 @@ bool isEllipse(double A, double B, double C, double D, double E, double F)
     I1 = A + C;
     I2 = A * C - B * B;
     I3 = A * C * F + B * Q * P + P * B * Q - P * C * P - B * B * F - A * Q * Q;
-    if (I2 > 1e-6 && abs(I3) > 1e-6 && I1 * I3 < -1e-6) {
+    if (I2 > ZERO && abs(I3) > ZERO && I1 * I3 < -ZERO) {
         return true;
     } else {
         return false;
@@ -126,10 +128,10 @@ vector<double> solveQuadraticEquation(double a, double b, double c)
 {
     vector<double> result;
     double delta = b * b - 4 * a * c;
-    if (delta > 1e-6) {
+    if (delta > ZERO) {
         result.push_back((-b + sqrt(delta)) / (2 * a));
         result.push_back((-b - sqrt(delta)) / (2 * a));
-    } else if (abs(delta) <= 1e-6) {
+    } else if (abs(delta) <= ZERO) {
         result.push_back(-b / (2 * a));
     }
     return result;
@@ -166,9 +168,9 @@ void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pai
     FQ1 = getFx(x1, arcs_pair.second.first.second, arcs_pair.second.second.second, A1, B1, C1, D1, E1, F1);
     delta0 = FP0 - FQ0;
     delta1 = FP1 - FQ1;
-    if (abs(delta0) <= 1e-6) {
+    if (abs(delta0) <= ZERO) {
         addIntersection(intersections, make_pair(x0, FP0));
-    } else if (abs(delta1) <= 1e-6) {
+    } else if (abs(delta1) <= ZERO) {
         addIntersection(intersections, make_pair(x1, FP1));
     }
 }
