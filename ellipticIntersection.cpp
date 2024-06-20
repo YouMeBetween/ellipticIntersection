@@ -21,6 +21,7 @@ void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pai
 double getFx(double, double, double, double, double, double, double, double, double);
 vector<double> getRectangle(pair<pair<double, double>, pair<double, double>>);
 void addIntersection(vector<pair<double, double>> &, pair<double, double>);
+void XLessThan0(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>, vector<pair<double, double>> &, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double);
 
 int main()
 {
@@ -159,7 +160,7 @@ bool isObviouslynotintersect(pair<pair<pair<double, double>, pair<double, double
 
 void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pair, vector<pair<double, double>> &intersections, double A0, double B0, double C0, double D0, double E0, double F0, double A1, double B1, double C1, double D1, double E1, double F1)
 {
-    double x0, x1, FP0, FP1, FQ0, FQ1, delta0, delta1;
+    double x0, x1, FP0, FP1, FQ0, FQ1, delta0, delta1, X, xk, FPk, FQk;
     x0 = max(min(arcs_pair.first.first.first, arcs_pair.first.second.first), min(arcs_pair.second.first.first, arcs_pair.second.second.first));
     x1 = min(max(arcs_pair.first.first.first, arcs_pair.first.second.first), max(arcs_pair.second.first.first, arcs_pair.second.second.first));
     FP0 = getFx(x0, arcs_pair.first.first.second, arcs_pair.first.second.second, A0, B0, C0, D0, E0, F0);
@@ -170,8 +171,15 @@ void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pai
     delta1 = FP1 - FQ1;
     if (abs(delta0) <= ZERO) {
         addIntersection(intersections, make_pair(x0, FP0));
+        return;
     } else if (abs(delta1) <= ZERO) {
         addIntersection(intersections, make_pair(x1, FP1));
+        return;
+    }
+    X = delta0 * delta1;
+    if (X < -ZERO) {
+        XLessThan0(arcs_pair, intersections, x0, x1, delta0, delta1, A0, B0, C0, D0, E0, F0, A1, B1, C1, D1, E1, F1);
+        return;
     }
 }
 
@@ -208,4 +216,24 @@ void addIntersection(vector<pair<double, double>> &intersections, pair<double, d
     if (find(intersections.begin(), intersections.end(), point) == intersections.end()) {
         intersections.push_back(point);
     }
+}
+
+void XLessThan0(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pair, vector<pair<double, double>> &intersections, double x0, double x1, double delta0, double delta1, double A0, double B0, double C0, double D0, double E0, double F0, double A1, double B1, double C1, double D1, double E1, double F1)
+{
+    double xk, FPk, FQk, deltak;
+    xk = (x0 + x1) / 2;
+    FPk = getFx(xk, arcs_pair.first.first.second, arcs_pair.first.second.second, A0, B0, C0, D0, E0, F0);
+    FQk = getFx(xk, arcs_pair.second.first.second, arcs_pair.second.second.second, A1, B1, C1, D1, E1, F1);
+    deltak = FPk - FQk;
+    if (abs(deltak) <= 0.0008) {
+        addIntersection(intersections, make_pair(xk, FPk));
+        return;
+    } else if (delta0 * deltak < -ZERO) {
+        x1 = xk;
+        delta1 = deltak;
+    } else {
+        x0 = xk;
+        delta0 = deltak;
+    }
+    XLessThan0(arcs_pair, intersections, x0, x1, delta0, delta1, A0, B0, C0, D0, E0, F0, A1, B1, C1, D1, E1, F1);
 }
