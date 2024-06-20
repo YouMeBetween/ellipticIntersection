@@ -8,6 +8,7 @@
 using namespace std;
 
 constexpr double ZERO = 1e-6;
+constexpr double Y_ACCURACY_THRESHOLD = 8e-4;
 
 vector<pair<double, double>> getEllipse(double &, double &, double &, double &, double &, double &);
 vector<pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>> getArcsPairs(vector<pair<double, double>>, vector<pair<double, double>>);
@@ -225,7 +226,7 @@ void XLessThan0(pair<pair<pair<double, double>, pair<double, double>>, pair<pair
     FPk = getFx(xk, arcs_pair.first, A0, B0, C0, D0, E0, F0);
     FQk = getFx(xk, arcs_pair.second, A1, B1, C1, D1, E1, F1);
     deltak = FPk - FQk;
-    if (abs(deltak) <= 0.0008) {
+    if (abs(deltak) <= Y_ACCURACY_THRESHOLD) {
         addIntersection(intersections, make_pair(xk, FPk));
         return;
     } else if (delta0 * deltak < -ZERO) {
