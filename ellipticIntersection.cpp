@@ -10,19 +10,19 @@ using namespace std;
 constexpr double ZERO = 1e-6;
 constexpr double Y_ACCURACY_THRESHOLD = 8e-4;
 
-vector<pair<double, double>> getEllipse(double &, double &, double &, double &, double &, double &);
-vector<pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>> getArcsPairs(vector<pair<double, double>>, vector<pair<double, double>>);
-vector<pair<pair<double, double>, pair<double, double>>> getArcs(vector<pair<double, double>>);
-bool isEllipse(double, double, double, double, double, double);
-vector<pair<double, double>> calcExtremePoint(double, double, double, double, double, double);
-vector<double> solveQuadraticEquation(double, double, double);
-vector<pair<double, double>> sortExtremePoint(vector<pair<double, double>>);
-bool isObviouslynotintersect(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>);
-void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>, vector<pair<double, double>> &, double, double, double, double, double, double, double, double, double, double, double, double);
-double getFx(double, pair<pair<double, double>, pair<double, double>>, double, double, double, double, double, double);
-vector<double> getRectangle(pair<pair<double, double>, pair<double, double>>);
-void addIntersection(vector<pair<double, double>> &, pair<double, double>);
-void XLessThan0(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>, vector<pair<double, double>> &, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double, double);
+vector<pair<double, double>> getEllipse(double &A, double &B, double &C, double &D, double &E, double &F);
+vector<pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>> getArcsPairs(vector<pair<double, double>> extreme_points0, vector<pair<double, double>> extreme_points1);
+vector<pair<pair<double, double>, pair<double, double>>> getArcs(vector<pair<double, double>> extreme_points);
+bool isEllipse(double A, double B, double C, double D, double E, double F);
+vector<pair<double, double>> calcExtremePoint(double A, double B, double C, double D, double E, double F);
+vector<double> solveQuadraticEquation(double a, double b, double c);
+vector<pair<double, double>> sortExtremePoint(vector<pair<double, double>> extreme_points);
+bool isObviouslynotintersect(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pairs);
+void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pair, vector<pair<double, double>> &intersections, double A0, double B0, double C0, double D0, double E0, double F0, double A1, double B1, double C1, double D1, double E1, double F1);
+double getFx(double x, pair<pair<double, double>, pair<double, double>> arc, double A, double B, double C, double D, double E, double F);
+vector<double> getRectangle(pair<pair<double, double>, pair<double, double>> arc);
+void addIntersection(vector<pair<double, double>> &intersections, pair<double, double> point);
+void XLessThan0(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pair, vector<pair<double, double>> &intersections, double x0, double x1, double delta0, double delta1, double A0, double B0, double C0, double D0, double E0, double F0, double A1, double B1, double C1, double D1, double E1, double F1);
 
 int main()
 {
