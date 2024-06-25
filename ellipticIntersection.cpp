@@ -21,7 +21,7 @@ vector<pair<double, double>> sortExtremePoint(vector<pair<double, double>> extre
 bool isObviouslynotintersect(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pairs);
 void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pair, vector<pair<double, double>> &intersections, double A0, double B0, double C0, double D0, double E0, double F0,vector<pair<double, double>> extreme_points0, double A1, double B1, double C1, double D1, double E1, double F1, vector<pair<double, double>> extreme_points1);
 double getFx(double x, pair<pair<double, double>, pair<double, double>> arc, double A, double B, double C, double D, double E, double F);
-double getAngle(double x, double y, double left, double right, double A, double B, double C, double D, double E, double F);
+double getAngle(double x, double y, double left, pair<pair<double, double>, pair<double, double>> arc, double A, double B, double C, double D, double E, double F);
 vector<double> getRectangle(pair<pair<double, double>, pair<double, double>> arc);
 void addIntersection(vector<pair<double, double>> &intersections, pair<double, double> point);
 void XLessThan0(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pair, vector<pair<double, double>> &intersections, double x0, double x1, double delta0, double delta1, double A0, double B0, double C0, double D0, double E0, double F0, double A1, double B1, double C1, double D1, double E1, double F1);
@@ -184,10 +184,10 @@ void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pai
         XLessThan0(arcs_pair, intersections, x0, x1, delta0, delta1, A0, B0, C0, D0, E0, F0, A1, B1, C1, D1, E1, F1);
         return;
     }
-    a0 = getAngle(x0, FP0, extreme_points0.at(3).first, extreme_points0.at(1).first, A0, B0, C0, D0, E0, F0);
-    a1 = getAngle(x1, FP1, extreme_points0.at(3).first, extreme_points0.at(1).first, A0, B0, C0, D0, E0, F0);
-    b0 = getAngle(x0, FQ0, extreme_points1.at(3).first, extreme_points1.at(1).first, A1, B1, C1, D1, E1, F1);
-    b1 = getAngle(x1, FQ1, extreme_points1.at(3).first, extreme_points1.at(1).first, A1, B1, C1, D1, E1, F1);
+    a0 = getAngle(x0, FP0, extreme_points0.at(3).first, arcs_pair.first, A0, B0, C0, D0, E0, F0);
+    a1 = getAngle(x1, FP1, extreme_points0.at(3).first, arcs_pair.first, A0, B0, C0, D0, E0, F0);
+    b0 = getAngle(x0, FQ0, extreme_points1.at(3).first, arcs_pair.second, A1, B1, C1, D1, E1, F1);
+    b1 = getAngle(x1, FQ1, extreme_points1.at(3).first, arcs_pair.second, A1, B1, C1, D1, E1, F1);
     if ((a0 - b0) * (a1 - b1) > ZERO) {
         return;
     }
@@ -211,14 +211,32 @@ double getFx(double x, pair<pair<double, double>, pair<double, double>> arc, dou
     }
 }
 
-double getAngle(double x, double y, double left, double right, double A, double B, double C, double D, double E, double F)
+double getAngle(double x, double y, double left, pair<pair<double, double>, pair<double, double>> arc, double A, double B, double C, double D, double E, double F)
 {
+    int arc_no = -1;
     double derivative, radian;
     if (abs(C * x + 2 * B * y + E) <= ZERO) {
+        if (arc.first.first < arc.second.first && arc.first.second > arc.second.second) {
+            arc_no = 1;
+        } else if (arc.first.first > arc.second.first && arc.first.second > arc.second.second) {
+            arc_no = 2;
+        } else if (arc.first.first > arc.second.first && arc.first.second < arc.second.second) {
+            arc_no = 3;
+        } else if (arc.first.first < arc.second.first && arc.first.second < arc.second.second) {
+            arc_no = 4;
+        }
         if (abs(x - left) <= ZERO) {
-            return -90;
+            if (arc_no == 3) {
+                return -90;
+            } else {
+                return 90;
+            }
         } else {
-            return 90;
+            if (arc_no == 1) {
+                return -90;
+            } else {
+                return 90;
+            }
         }
     }
     derivative = (-2 * A * x - C * y - D) / (C * x + 2 * B * y + E);
