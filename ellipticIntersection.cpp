@@ -10,6 +10,7 @@ using namespace std;
 
 constexpr double ZERO = 1e-6;
 constexpr double Y_ACCURACY_THRESHOLD = 8e-4;
+constexpr double SK_ACCURACY_THRESHOLD = 1e-6;
 
 vector<pair<double, double>> getEllipse(double &A, double &B, double &C, double &D, double &E, double &F);
 vector<pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>> getArcsPairs(vector<pair<double, double>> extreme_points0, vector<pair<double, double>> extreme_points1);
@@ -293,7 +294,7 @@ double xkWhenSkEqual0(pair<pair<pair<double, double>, pair<double, double>>, pai
     bk = getAngle(xk, FQk, extreme_points1.at(3).first, arcs_pair.second, A1, B1, C1, D1, E1, F1);
     s0 = a0 - b0;
     sk = ak - bk;
-    if (abs(sk) <= 1e-3) {
+    if (abs(sk) <= SK_ACCURACY_THRESHOLD) {
         return xk;
     }
     if (s0 * sk < 0) {
