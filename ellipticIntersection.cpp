@@ -105,7 +105,7 @@ bool isEllipse(double A, double B, double C, double D, double E, double F)
     I1 = A + C;
     I2 = A * C - B * B;
     I3 = A * C * F + B * Q * P + P * B * Q - P * C * P - B * B * F - A * Q * Q;
-    if (I2 > ZERO && abs(I3) > ZERO && I1 * I3 < -ZERO) {
+    if (I2 > 0 && abs(I3) > 0 && I1 * I3 < 0) {
         return true;
     } else {
         return false;
@@ -133,7 +133,7 @@ vector<double> solveQuadraticEquation(double a, double b, double c)
 {
     vector<double> result;
     double delta = b * b - 4 * a * c;
-    if (delta > ZERO) {
+    if (delta > 0) {
         result.push_back((-b + sqrt(delta)) / (2 * a));
         result.push_back((-b - sqrt(delta)) / (2 * a));
     } else if (abs(delta) <= ZERO) {
@@ -181,7 +181,7 @@ void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pai
         return;
     }
     X = delta0 * delta1;
-    if (X < -ZERO) {
+    if (X < 0) {
         XLessThan0(arcs_pair, intersections, x0, x1, delta0, delta1, A0, B0, C0, D0, E0, F0, A1, B1, C1, D1, E1, F1);
         return;
     }
@@ -189,7 +189,7 @@ void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pai
     a1 = getAngle(x1, FP1, extreme_points0.at(3).first, arcs_pair.first, A0, B0, C0, D0, E0, F0);
     b0 = getAngle(x0, FQ0, extreme_points1.at(3).first, arcs_pair.second, A1, B1, C1, D1, E1, F1);
     b1 = getAngle(x1, FQ1, extreme_points1.at(3).first, arcs_pair.second, A1, B1, C1, D1, E1, F1);
-    if ((a0 - b0) * (a1 - b1) > ZERO) {
+    if ((a0 - b0) * (a1 - b1) > 0) {
         return;
     }
     cout << xkWhenSkEqual0(arcs_pair, x0, x1, a0, b0, A0, B0, C0, D0, E0, F0, extreme_points0, A1, B1, C1, D1, E1, F1, extreme_points1) << endl;
@@ -273,7 +273,7 @@ void XLessThan0(pair<pair<pair<double, double>, pair<double, double>>, pair<pair
     if (abs(deltak) <= Y_ACCURACY_THRESHOLD) {
         addIntersection(intersections, make_pair(xk, FPk));
         return;
-    } else if (delta0 * deltak < -ZERO) {
+    } else if (delta0 * deltak < 0) {
         x1 = xk;
         delta1 = deltak;
     } else {
@@ -296,7 +296,7 @@ double xkWhenSkEqual0(pair<pair<pair<double, double>, pair<double, double>>, pai
     if (abs(sk) <= 1e-3) {
         return xk;
     }
-    if (s0 * sk < -ZERO) {
+    if (s0 * sk < 0) {
         x1 = xk;
     } else {
         x0 = xk;
