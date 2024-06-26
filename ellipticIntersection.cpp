@@ -22,6 +22,7 @@ vector<pair<double, double>> sortExtremePoint(vector<pair<double, double>> extre
 bool isObviouslynotintersect(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pairs);
 void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pair, vector<pair<double, double>> &intersections, double A0, double B0, double C0, double D0, double E0, double F0,vector<pair<double, double>> extreme_points0, double A1, double B1, double C1, double D1, double E1, double F1, vector<pair<double, double>> extreme_points1);
 double getFx(double x, pair<pair<double, double>, pair<double, double>> arc, double A, double B, double C, double D, double E, double F);
+int getArcNo(pair<pair<double, double>, pair<double, double>> arc);
 double getAngle(double x, double y, double left, pair<pair<double, double>, pair<double, double>> arc, double A, double B, double C, double D, double E, double F);
 vector<double> getRectangle(pair<pair<double, double>, pair<double, double>> arc);
 void addIntersection(vector<pair<double, double>> &intersections, pair<double, double> point);
@@ -214,20 +215,25 @@ double getFx(double x, pair<pair<double, double>, pair<double, double>> arc, dou
     }
 }
 
+int getArcNo(pair<pair<double, double>, pair<double, double>> arc)
+{
+    if (arc.first.first < arc.second.first && arc.first.second > arc.second.second) {
+        return 1;
+    } else if (arc.first.first > arc.second.first && arc.first.second > arc.second.second) {
+        return 2;
+    } else if (arc.first.first > arc.second.first && arc.first.second < arc.second.second) {
+        return 3;
+    } else if (arc.first.first < arc.second.first && arc.first.second < arc.second.second) {
+        return 4;
+    }
+    return -1;
+}
+
 double getAngle(double x, double y, double left, pair<pair<double, double>, pair<double, double>> arc, double A, double B, double C, double D, double E, double F)
 {
-    int arc_no = -1;
+    int arc_no = getArcNo(arc);
     double derivative, radian;
     if (abs(C * x + 2 * B * y + E) <= ZERO) {
-        if (arc.first.first < arc.second.first && arc.first.second > arc.second.second) {
-            arc_no = 1;
-        } else if (arc.first.first > arc.second.first && arc.first.second > arc.second.second) {
-            arc_no = 2;
-        } else if (arc.first.first > arc.second.first && arc.first.second < arc.second.second) {
-            arc_no = 3;
-        } else if (arc.first.first < arc.second.first && arc.first.second < arc.second.second) {
-            arc_no = 4;
-        }
         if (abs(x - left) <= ZERO) {
             if (arc_no == 3) {
                 return -90;
