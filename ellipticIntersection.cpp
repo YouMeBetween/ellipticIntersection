@@ -206,6 +206,8 @@ void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pai
     if (delta0 * deltak > 0) {
         return;
     }
+    XLessThan0(arcs_pair, intersections, x0, xk, delta0, deltak, A0, B0, C0, D0, E0, F0, A1, B1, C1, D1, E1, F1);
+    XLessThan0(arcs_pair, intersections, xk, x1, deltak, delta1, A0, B0, C0, D0, E0, F0, A1, B1, C1, D1, E1, F1);
 }
 
 double getFx(double x, pair<pair<double, double>, pair<double, double>> arc, double A, double B, double C, double D, double E, double F)
