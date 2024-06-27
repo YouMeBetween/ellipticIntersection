@@ -199,13 +199,11 @@ void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pai
 
 double getFx(double x, pair<pair<double, double>, pair<double, double>> arc, double A, double B, double C, double D, double E, double F)
 {
+    int arc_no = getArcNo(arc);
     vector<double> solution;
     solution = solveQuadraticEquation(B, C * x + E, A * x * x + D * x + F);
     if (solution.size() == 2) {
-        if (arc.first.first < arc.second.first && arc.first.second > arc.second.second && (solution.at(0) < arc.first.second || abs(solution.at(0) - arc.first.second) <= ZERO) && (solution.at(0) > arc.second.second || abs(solution.at(0) - arc.second.second) <= ZERO)
-                || arc.first.first > arc.second.first && arc.first.second > arc.second.second && (solution.at(0) < arc.first.second || abs(solution.at(0) - arc.first.second) <= ZERO) && (solution.at(0) > arc.second.second || abs(solution.at(0) - arc.second.second) <= ZERO)
-                || arc.first.first > arc.second.first && arc.first.second < arc.second.second && (solution.at(0) > arc.first.second || abs(solution.at(0) - arc.first.second) <= ZERO) && (solution.at(0) < arc.second.second || abs(solution.at(0) - arc.second.second) <= ZERO)
-                || arc.first.first < arc.second.first && arc.first.second < arc.second.second && (solution.at(0) > arc.first.second || abs(solution.at(0) - arc.first.second) <= ZERO) && (solution.at(0) < arc.second.second || abs(solution.at(0) - arc.second.second) <= ZERO)) {
+        if (arc_no == 1 || arc_no == 4) {
             return solution.at(0);
         } else {
             return solution.at(1);
