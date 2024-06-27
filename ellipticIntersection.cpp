@@ -203,6 +203,9 @@ void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pai
         addIntersection(intersections, make_pair(xk, FPk));
         return;
     }
+    if (delta0 * deltak > 0) {
+        return;
+    }
 }
 
 double getFx(double x, pair<pair<double, double>, pair<double, double>> arc, double A, double B, double C, double D, double E, double F)
