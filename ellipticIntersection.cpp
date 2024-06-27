@@ -167,7 +167,7 @@ bool isObviouslynotintersect(pair<pair<pair<double, double>, pair<double, double
 
 void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pair, vector<pair<double, double>> &intersections, double A0, double B0, double C0, double D0, double E0, double F0, vector<pair<double, double>> extreme_points0, double A1, double B1, double C1, double D1, double E1, double F1, vector<pair<double, double>> extreme_points1)
 {
-    double x0, x1, FP0, FP1, FQ0, FQ1, delta0, delta1, X, xk, FPk, FQk, a0, a1, b0, b1;
+    double x0, x1, FP0, FP1, FQ0, FQ1, delta0, delta1, X, xk, FPk, FQk, deltak, a0, a1, b0, b1;
     x0 = max(min(arcs_pair.first.first.first, arcs_pair.first.second.first), min(arcs_pair.second.first.first, arcs_pair.second.second.first));
     x1 = min(max(arcs_pair.first.first.first, arcs_pair.first.second.first), max(arcs_pair.second.first.first, arcs_pair.second.second.first));
     FP0 = getFx(x0, arcs_pair.first, A0, B0, C0, D0, E0, F0);
@@ -195,7 +195,14 @@ void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pai
     if ((a0 - b0) * (a1 - b1) > 0) {
         return;
     }
-    cout << xkWhenSkEqual0(arcs_pair, x0, x1, a0, b0, A0, B0, C0, D0, E0, F0, extreme_points0, A1, B1, C1, D1, E1, F1, extreme_points1) << endl;
+    xk = xkWhenSkEqual0(arcs_pair, x0, x1, a0, b0, A0, B0, C0, D0, E0, F0, extreme_points0, A1, B1, C1, D1, E1, F1, extreme_points1);
+    FPk = getFx(xk, arcs_pair.first, A0, B0, C0, D0, E0, F0);
+    FQk = getFx(xk, arcs_pair.second, A1, B1, C1, D1, E1, F1);
+    deltak = FPk - FQk;
+    if (abs(deltak) <= ZERO) {
+        addIntersection(intersections, make_pair(xk, FPk));
+        return;
+    }
 }
 
 double getFx(double x, pair<pair<double, double>, pair<double, double>> arc, double A, double B, double C, double D, double E, double F)
