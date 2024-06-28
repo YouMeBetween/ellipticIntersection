@@ -313,7 +313,7 @@ vector<double> getRectangle(pair<pair<double, double>, pair<double, double>> arc
 
 void addIntersection(vector<pair<double, double>> &intersections, pair<double, double> point)
 {
-    if (find(intersections.begin(), intersections.end(), point) == intersections.end()) {
+    if (find_if(intersections.begin(), intersections.end(), [point](pair<double, double> stored_point) { return abs(stored_point.first - point.first) <= ZERO && abs(stored_point.second - point.second) <= ZERO; }) == intersections.end()) {
         intersections.push_back(point);
     }
 }
