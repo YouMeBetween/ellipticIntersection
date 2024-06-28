@@ -43,9 +43,13 @@ int main()
         }
         calcIntersection(s, intersections, A1, B1, C1, D1, E1, F1, extreme_points0, A2, B2, C2, D2, E2, F2, extreme_points1);
     }
-    cout << "两椭圆的交点坐标为\n";
-    for (auto s : intersections) {
-        cout << "(" << (abs(s.first) <= ZERO ? 0 : s.first) << ", " << (abs(s.second) <= ZERO ? 0 : s.second) << ")\n";
+    if (intersections.empty()) {
+        cout << "两椭圆没有交点\n";
+    } else {
+        cout << "两椭圆的交点坐标为\n";
+        for (auto s : intersections) {
+            cout << "(" << (abs(s.first) <= ZERO ? 0 : s.first) << ", " << (abs(s.second) <= ZERO ? 0 : s.second) << ")\n";
+        }
     }
     system("pause");
 }
