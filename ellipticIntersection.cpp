@@ -57,16 +57,49 @@ int main()
 vector<pair<double, double>> getEllipse(double &A, double &B, double &C, double &D, double &E, double &F)
 {
     static int cont = 1;
+    double h, k, a, b, theta;
+    bool need_retry = false;
     vector<pair<double, double>> extreme_points;
-    cout << "请输入第" << cont << "个椭圆的方程Ax^2+By^2+Cxy+Dx+Ey+F=0中的参数，以空格为分隔\n";
+    cout << "请输入第" << cont << "个椭圆的椭圆心横坐标、椭圆心纵坐标、长轴长、短轴长、长轴与x轴夹角，以空格为分隔\n";
     while (true) {
-        cin >> A >> B >> C >> D >> E >> F;
+        cin >> h >> k >> a >> b >> theta;
         cin.sync();
         if (cin.rdstate() != 0) {
             cout << "输入异常，请重新输入\n";
             cin.clear();
             continue;
         }
+        if (a < 0) {
+            cout << "输入的长轴长小于0\n";
+            need_retry = true;
+        }
+        if (b < 0) {
+            cout << "输入的短轴长小于0\n";
+            need_retry = true;
+        }
+        if (a < b) {
+            cout << "输入的长轴长小于短轴\n";
+            need_retry = true;
+        }
+        if (theta < 0 || theta >= 180) {
+            cout << "输入的长轴与x轴夹角不在[0, 180)的范围内\n";
+            need_retry = true;
+        }
+        if (need_retry) {
+            cout << "请重新输入\n";
+            need_retry = false;
+            continue;
+        }
+        a /= 2;
+        b /= 2;
+        theta = theta * M_PI / 180;
+        A = (cos(theta) * cos(theta)) / (a * a) + (sin(theta) * sin(theta)) / (b * b);
+        B = 2 * cos(theta) * sin(theta) * (1 / (a * a) - 1 / (b * b));
+        C = (sin(theta) * sin(theta)) / (a * a) + (cos(theta) * cos(theta)) / (b * b);
+        D = -(2 * A * h + B * k);
+        E = -(2 * C * k + B * h);
+        F = A * h * h + B * h * k + C * k * k - 1;
+        swap(B, C);
         if (!isEllipse(A, B, C, D, E, F)) {
             cout << "参数无法构成椭圆，请重新输入\n";
             continue;
