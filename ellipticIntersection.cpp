@@ -75,7 +75,7 @@ vector<double> solveQuadraticEquation(double a, double b, double c);
  */
 vector<pair<double, double>> sortExtremePoint(vector<pair<double, double>> extreme_points);
 /**
- * @brief 判断一个弧对是否明显不相交，即所在矩形是否重叠
+ * @brief 判断一个弧对是否明显不相交, 即所在矩形是否重叠
  * @param[in] arcs_pairs 弧对
  * @return bool 弧对是否明显不相交
  *      -true   弧对明显不相交
@@ -196,18 +196,24 @@ double xkWhenSkEqual0(pair<pair<pair<double, double>, pair<double, double>>, pai
 
 int main()
 {
-    double A1, B1, C1, D1, E1, F1, A2, B2, C2, D2, E2, F2;
-    vector<pair<double, double>> extreme_points0, extreme_points1, intersections;
-    vector<pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>> arcs_pairs;
+    double A1, B1, C1, D1, E1, F1, A2, B2, C2, D2, E2, F2;  /* 两个椭圆一般方程的参数 */
+    vector<pair<double, double>> extreme_points0, extreme_points1, intersections;   /* 两个椭圆的极值点坐标以及交点坐标 */
+    vector<pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>> arcs_pairs;    /* 两个椭圆的四个单调弧两两组合构成的16个弧对 */
+    /* 读取椭圆参数并分别计算两个椭圆的极值点坐标 */
     extreme_points0 = getEllipse(A1, B1, C1, D1, E1, F1);
     extreme_points1 = getEllipse(A2, B2, C2, D2, E2, F2);
+    /* 获取两个椭圆构成的16个弧对 */
     arcs_pairs = getArcsPairs(extreme_points0, extreme_points1);
+    /* 计算交点, 每轮循环计算一个弧对 */
     for (auto s : arcs_pairs) {
+        /* 如果两椭圆弧之间显然不相交, 即两椭圆弧所在最小水平矩形不相交, 则直接进入下一轮循环 */
         if (isObviouslynotintersect(s)) {
             continue;
         }
+        /* 计算两椭圆弧交点, 并将结果记录到intersections中 */
         calcIntersection(s, intersections, A1, B1, C1, D1, E1, F1, extreme_points0, A2, B2, C2, D2, E2, F2, extreme_points1);
     }
+    /* 输出结果 */
     if (intersections.empty()) {
         cout << "两椭圆没有交点\n";
     } else {
