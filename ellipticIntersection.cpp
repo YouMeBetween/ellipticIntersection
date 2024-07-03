@@ -391,6 +391,25 @@ bool isObviouslyNotIntersect(pair<pair<pair<double, double>, pair<double, double
 
 void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pair, vector<pair<double, double>> &intersections, double A0, double B0, double C0, double D0, double E0, double F0, vector<pair<double, double>> extreme_points0, double A1, double B1, double C1, double D1, double E1, double F1, vector<pair<double, double>> extreme_points1)
 {
+    /**
+     * x0       两椭圆弧横轴交集的最左侧横坐标
+     * x1       两椭圆弧横轴交集的最右侧横坐标
+     * FP0      第一个椭圆弧在x0处的纵坐标
+     * FP1      第一个椭圆弧在x1处的纵坐标
+     * FQ0      第二个椭圆弧在x0处的纵坐标
+     * FQ1      第二个椭圆弧在x1处的纵坐标
+     * delta0   FP0 - FQ1
+     * delta1   FP1 - FQ1
+     * X        delta0 * delta1
+     * xk       两椭圆弧切矢方向相同的位置的横坐标
+     * FPk      第一个椭圆弧在xk处的纵坐标
+     * FQk      第二个椭圆弧在xk处的纵坐标
+     * deltak   FPk - FQk
+     * a0       第一个椭圆弧在x0处的切矢与x轴的夹角
+     * a1       第一个椭圆弧在x1处的切矢与x轴的夹角
+     * b0       第二个椭圆弧在x0处的切矢与x轴的夹角
+     * b1       第二个椭圆弧在x1处的切矢与x轴的夹角
+     */
     double x0, x1, FP0, FP1, FQ0, FQ1, delta0, delta1, X, xk, FPk, FQk, deltak, a0, a1, b0, b1;
     x0 = max(min(arcs_pair.first.first.first, arcs_pair.first.second.first), min(arcs_pair.second.first.first, arcs_pair.second.second.first));
     x1 = min(max(arcs_pair.first.first.first, arcs_pair.first.second.first), max(arcs_pair.second.first.first, arcs_pair.second.second.first));
@@ -400,6 +419,7 @@ void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pai
     FQ1 = getFx(x1, arcs_pair.second, A1, B1, C1, D1, E1, F1);
     delta0 = FP0 - FQ0;
     delta1 = FP1 - FQ1;
+    /* 若delta0或delta1等于0, 则两椭圆弧在端点处相交 */
     if (abs(delta0) <= ZERO) {
         addIntersection(intersections, make_pair(x0, FP0));
         return;
@@ -408,6 +428,7 @@ void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pai
         return;
     }
     X = delta0 * delta1;
+    /* 若 X < 0, 则两椭圆弧有一个交点 */
     if (X < 0) {
         XLessThan0(arcs_pair, intersections, x0, x1, delta0, delta1, A0, B0, C0, D0, E0, F0, A1, B1, C1, D1, E1, F1);
         return;
@@ -416,6 +437,7 @@ void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pai
     a1 = getAngle(x1, FP1, extreme_points0.at(3).first, arcs_pair.first, A0, B0, C0, D0, E0, F0);
     b0 = getAngle(x0, FQ0, extreme_points1.at(3).first, arcs_pair.second, A1, B1, C1, D1, E1, F1);
     b1 = getAngle(x1, FQ1, extreme_points1.at(3).first, arcs_pair.second, A1, B1, C1, D1, E1, F1);
+    /* 若 (a0 - b0) * (a1 - b1) > 0, 则两椭圆弧没有交点 */
     if ((a0 - b0) * (a1 - b1) > 0) {
         return;
     }
@@ -423,13 +445,16 @@ void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pai
     FPk = getFx(xk, arcs_pair.first, A0, B0, C0, D0, E0, F0);
     FQk = getFx(xk, arcs_pair.second, A1, B1, C1, D1, E1, F1);
     deltak = FPk - FQk;
+    /* 若deltak等于0, 则两椭圆弧在(xk, FPk)处相交 */
     if (abs(deltak) <= ZERO) {
         addIntersection(intersections, make_pair(xk, FPk));
         return;
     }
+    /* 若 delta0 * deltak > 0, 则两椭圆弧没有交点 */
     if (delta0 * deltak > 0) {
         return;
     }
+    /* 若 delta0 * deltak < 0, 则两椭圆弧在(x0, xk)和(xk, x0)区间内各有一个交点 */
     XLessThan0(arcs_pair, intersections, x0, xk, delta0, deltak, A0, B0, C0, D0, E0, F0, A1, B1, C1, D1, E1, F1);
     XLessThan0(arcs_pair, intersections, xk, x1, deltak, delta1, A0, B0, C0, D0, E0, F0, A1, B1, C1, D1, E1, F1);
 }
