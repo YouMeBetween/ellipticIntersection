@@ -12,21 +12,186 @@ constexpr double ZERO = 1e-6;
 constexpr double Y_ACCURACY_THRESHOLD = 8e-4;
 constexpr double SK_ACCURACY_THRESHOLD = 1e-6;
 
+/**
+ * @brief 从控制台读取椭圆信息并获取四个极值点坐标(按顺时针排序)
+ * @param[out] A 椭圆一般方程中的参数A
+ * @param[out] B 椭圆一般方程中的参数B
+ * @param[out] C 椭圆一般方程中的参数C
+ * @param[out] D 椭圆一般方程中的参数D
+ * @param[out] E 椭圆一般方程中的参数E
+ * @param[out] F 椭圆一般方程中的参数F
+ * @return vector<pair<double, double>> 椭圆的四个极值点坐标
+ */
 vector<pair<double, double>> getEllipse(double &A, double &B, double &C, double &D, double &E, double &F);
+/**
+ * @brief 获取两个椭圆的四个弧两两组合成的16个弧对
+ * @param[in] extreme_points0 第一个椭圆的四个极值点
+ * @param[in] extreme_points1 第二个椭圆的四个极值点
+ * @return vector<pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>> 16个弧对
+ */
 vector<pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>> getArcsPairs(vector<pair<double, double>> extreme_points0, vector<pair<double, double>> extreme_points1);
+/**
+ * @brief 将椭圆分成四个单调弧
+ * @param[in] extreme_points 椭圆的四个极值点
+ * @return vector<pair<pair<double, double>, pair<double, double>>> 椭圆的四个单调弧
+ */
 vector<pair<pair<double, double>, pair<double, double>>> getArcs(vector<pair<double, double>> extreme_points);
+/**
+ * @brief 判断一个圆锥曲线的一般方程是否是椭圆
+ * @param[in] A 圆锥曲线一般方程中的参数A
+ * @param[in] B 圆锥曲线一般方程中的参数B
+ * @param[in] C 圆锥曲线一般方程中的参数C
+ * @param[in] D 圆锥曲线一般方程中的参数D
+ * @param[in] E 圆锥曲线一般方程中的参数E
+ * @param[in] F 圆锥曲线一般方程中的参数F
+ * @return bool 圆锥曲线是否是椭圆
+ *      -true   圆锥曲线是椭圆
+ *      -false  圆锥曲线不是椭圆
+ */
 bool isEllipse(double A, double B, double C, double D, double E, double F);
+/**
+ * @brief 根据椭圆的一般方程计算四个极值点(未排序)
+ * @param[in] A 椭圆一般方程中的参数A
+ * @param[in] B 椭圆一般方程中的参数B
+ * @param[in] C 椭圆一般方程中的参数C
+ * @param[in] D 椭圆一般方程中的参数D
+ * @param[in] E 椭圆一般方程中的参数E
+ * @param[in] F 椭圆一般方程中的参数F
+ * return vector<pair<double, double>> 椭圆的四个极值点坐标(未排序)
+ */
 vector<pair<double, double>> calcExtremePoint(double A, double B, double C, double D, double E, double F);
+/**
+ * @brief 解一元二次方程
+ * @param[in] a 一元二次方程一般形式的参数a
+ * @param[in] b 一元二次方程一般形式的参数b
+ * @param[in] c 一元二次方程一般形式的参数c
+ * @return vector<double> 一元二次方程的解
+ */
 vector<double> solveQuadraticEquation(double a, double b, double c);
+/**
+ * @brief 将椭圆的四个极值点按顺时针方向从最上方的点开始排序
+ * @param[in] extreme_points 椭圆的四个极值点
+ * @return vector<pair<double, double>> 排序后的四个极值点
+ */
 vector<pair<double, double>> sortExtremePoint(vector<pair<double, double>> extreme_points);
+/**
+ * @brief 判断一个弧对是否明显不相交，即所在矩形是否重叠
+ * @param[in] arcs_pairs 弧对
+ * @return bool 弧对是否明显不相交
+ *      -true   弧对明显不相交
+ *      -false  弧对可能相交
+ */
 bool isObviouslynotintersect(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pairs);
+/**
+ * @brief 计算一组弧对交点
+ * @param[in] arcs_pair 弧对
+ * @param[out] intersections 结果集
+ * @param[in] A0 第一个椭圆的一般方程的参数A
+ * @param[in] B0 第一个椭圆的一般方程的参数B
+ * @param[in] C0 第一个椭圆的一般方程的参数C
+ * @param[in] D0 第一个椭圆的一般方程的参数D
+ * @param[in] E0 第一个椭圆的一般方程的参数E
+ * @param[in] F0 第一个椭圆的一般方程的参数F
+ * @param[in] extreme_points0 第一个椭圆的四个极值点
+ * @param[in] A1 第二个椭圆的一般方程的参数A
+ * @param[in] B1 第二个椭圆的一般方程的参数B
+ * @param[in] C1 第二个椭圆的一般方程的参数C
+ * @param[in] D1 第二个椭圆的一般方程的参数D
+ * @param[in] E1 第二个椭圆的一般方程的参数E
+ * @param[in] F1 第二个椭圆的一般方程的参数F
+ * @param[in] extreme_points1 第二个椭圆的四个极值点
+ */
 void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pair, vector<pair<double, double>> &intersections, double A0, double B0, double C0, double D0, double E0, double F0,vector<pair<double, double>> extreme_points0, double A1, double B1, double C1, double D1, double E1, double F1, vector<pair<double, double>> extreme_points1);
+/**
+ * @brief 计算一段椭圆弧在某一横坐标处对应的纵坐标
+ * @param[in] x 横坐标
+ * @param[in] arc 椭圆弧
+ * @param[in] A 椭圆一般方程的参数A
+ * @param[in] B 椭圆一般方程的参数B
+ * @param[in] C 椭圆一般方程的参数C
+ * @param[in] D 椭圆一般方程的参数D
+ * @param[in] E 椭圆一般方程的参数E
+ * @param[in] F 椭圆一般方程的参数F
+ * @return double 计算得到的纵坐标
+ */
 double getFx(double x, pair<pair<double, double>, pair<double, double>> arc, double A, double B, double C, double D, double E, double F);
+/**
+ * @brief 计算一个椭圆弧编号(按顺时针方向从右上方的椭圆弧开始排序)
+ * @param[in] 椭圆弧
+ * @return int 编号
+ */
 int getArcNo(pair<pair<double, double>, pair<double, double>> arc);
+/**
+ * @brief 计算一段椭圆弧在某一点的切矢与x轴的夹角
+ * @param[in] x 需计算点的横坐标
+ * @param[in] y 需计算点的纵坐标
+ * @param[in] left 椭圆左极点横坐标
+ * @param[in] arc 椭圆弧
+ * @param[in] A 椭圆一般方程的参数A
+ * @param[in] B 椭圆一般方程的参数B
+ * @param[in] C 椭圆一般方程的参数C
+ * @param[in] D 椭圆一般方程的参数D
+ * @param[in] E 椭圆一般方程的参数E
+ * @param[in] F 椭圆一般方程的参数F
+ * return double 计算得到的夹角
+ */
 double getAngle(double x, double y, double left, pair<pair<double, double>, pair<double, double>> arc, double A, double B, double C, double D, double E, double F);
+/**
+ * @brief 计算一段椭圆弧所在的最小水平矩形的右上和左下角的坐标
+ * @param[in] arc 椭圆弧
+ * @return vector<double> 计算得到的坐标(按右上纵坐标、右上横坐标、左下纵坐标、左下横坐标排列)
+ */
 vector<double> getRectangle(pair<pair<double, double>, pair<double, double>> arc);
+/**
+ * @brief 将某一点放入计算结果集中
+ * @param[out] intersections 结果集
+ * @param[in] point 点坐标
+ */
 void addIntersection(vector<pair<double, double>> &intersections, pair<double, double> point);
+/**
+ * @brief 计算当 X < 0 时两弧的交点坐标
+ * @param[in] arcs_pair 弧对
+ * @param[out] intersections 结果集
+ * @param[in] x0 两椭圆弧横轴交集的最左侧横坐标
+ * @param[in] x1 两椭圆弧横轴交集的最右侧横坐标
+ * @param[in] delta0 x0处的delta值
+ * @param[in] delta1 x1处的delta值
+ * @param[in] A0 第一个椭圆一般方程的参数A
+ * @param[in] B0 第一个椭圆一般方程的参数B
+ * @param[in] C0 第一个椭圆一般方程的参数C
+ * @param[in] D0 第一个椭圆一般方程的参数D
+ * @param[in] E0 第一个椭圆一般方程的参数E
+ * @param[in] F0 第一个椭圆一般方程的参数F
+ * @param[in] A1 第二个椭圆一般方程的参数A
+ * @param[in] B1 第二个椭圆一般方程的参数B
+ * @param[in] C1 第二个椭圆一般方程的参数C
+ * @param[in] D1 第二个椭圆一般方程的参数D
+ * @param[in] E1 第二个椭圆一般方程的参数E
+ * @param[in] F1 第二个椭圆一般方程的参数F
+ */
 void XLessThan0(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pair, vector<pair<double, double>> &intersections, double x0, double x1, double delta0, double delta1, double A0, double B0, double C0, double D0, double E0, double F0, double A1, double B1, double C1, double D1, double E1, double F1);
+/**
+ * @brief 计算两椭圆弧在切矢相同位置的横坐标
+ * @param[in] arcs_pair 弧对
+ * @param[in] x0 两椭圆弧横轴交集的最左侧横坐标
+ * @param[in] x1 两椭圆弧横轴交集的最右侧横坐标
+ * @param[in] a0 第一个椭圆弧在x0处的切矢方向
+ * @param[in] b0 第二个椭圆弧在x0处的切矢方向
+ * @param[in] A0 第一个椭圆一般方程的参数A
+ * @param[in] B0 第一个椭圆一般方程的参数B
+ * @param[in] C0 第一个椭圆一般方程的参数C
+ * @param[in] D0 第一个椭圆一般方程的参数D
+ * @param[in] E0 第一个椭圆一般方程的参数E
+ * @param[in] F0 第一个椭圆一般方程的参数F
+ * @param[in] extreme_points0 第一个椭圆的极值点坐标
+ * @param[in] A1 第二个椭圆一般方程的参数A
+ * @param[in] B1 第二个椭圆一般方程的参数B
+ * @param[in] C1 第二个椭圆一般方程的参数C
+ * @param[in] D1 第二个椭圆一般方程的参数D
+ * @param[in] E1 第二个椭圆一般方程的参数E
+ * @param[in] F1 第二个椭圆一般方程的参数F
+ * @param[in] extreme_points1 第二个椭圆的极值点坐标
+ */
 double xkWhenSkEqual0(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pair, double x0, double x1, double a0, double b0, double A0, double B0, double C0, double D0, double E0, double F0, vector<pair<double, double>> extreme_points0, double A1, double B1, double C1, double D1, double E1, double F1, vector<pair<double, double>> extreme_points1);
 
 int main()
