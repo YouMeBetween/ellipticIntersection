@@ -353,8 +353,8 @@ vector<pair<double, double>> calcExtremePoint(double A, double B, double C, doub
 
 vector<double> solveQuadraticEquation(double a, double b, double c)
 {
-    vector<double> result;
-    double delta = b * b - 4 * a * c;
+    vector<double> result;              /* 一元二次方程的解 */
+    double delta = b * b - 4 * a * c;   /* 一元二次方程的delta */
     if (delta > 0) {
         result.push_back((-b + sqrt(delta)) / (2 * a));
         result.push_back((-b - sqrt(delta)) / (2 * a));
