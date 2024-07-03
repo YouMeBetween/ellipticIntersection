@@ -378,9 +378,10 @@ vector<pair<double, double>> sortExtremePoint(vector<pair<double, double>> extre
 
 bool isObviouslynotintersect(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pairs)
 {
-    vector<double> rectangle0, rectangle1;
+    vector<double> rectangle0, rectangle1;  /* 两个椭圆所在的矩形区域, 按照上边界纵坐标、右边界横坐标、下边界纵坐标、左边界横坐标顺序排列 */
     rectangle0 = getRectangle(arcs_pairs.first);
     rectangle1 = getRectangle(arcs_pairs.second);
+    /* 根据两个矩形的边界坐标判断两个矩形是否相交 */
     if (rectangle0.at(0) < rectangle1.at(2) || rectangle0.at(1) < rectangle1.at(3) || rectangle0.at(2) > rectangle1.at(0) || rectangle0.at(3) > rectangle1.at(1)) {
         return true;
     } else {
