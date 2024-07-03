@@ -81,7 +81,7 @@ vector<pair<double, double>> sortExtremePoint(vector<pair<double, double>> extre
  *      -true   弧对明显不相交
  *      -false  弧对可能相交
  */
-bool isObviouslynotintersect(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pairs);
+bool isObviouslyNotIntersect(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pairs);
 /**
  * @brief 计算一组弧对交点
  * @param[in] arcs_pair 弧对
@@ -207,7 +207,7 @@ int main()
     /* 计算交点, 每轮循环计算一个弧对 */
     for (auto s : arcs_pairs) {
         /* 如果两椭圆弧之间显然不相交, 即两椭圆弧所在最小水平矩形不相交, 则直接进入下一轮循环 */
-        if (isObviouslynotintersect(s)) {
+        if (isObviouslyNotIntersect(s)) {
             continue;
         }
         /* 计算两椭圆弧交点, 并将结果记录到intersections中 */
@@ -376,7 +376,7 @@ vector<pair<double, double>> sortExtremePoint(vector<pair<double, double>> extre
     return extreme_points;
 }
 
-bool isObviouslynotintersect(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pairs)
+bool isObviouslyNotIntersect(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pairs)
 {
     vector<double> rectangle0, rectangle1;  /* 两个椭圆所在的矩形区域, 按照上边界纵坐标、右边界横坐标、下边界纵坐标、左边界横坐标顺序排列 */
     rectangle0 = getRectangle(arcs_pairs.first);
