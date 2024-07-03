@@ -334,8 +334,9 @@ bool isEllipse(double A, double B, double C, double D, double E, double F)
 
 vector<pair<double, double>> calcExtremePoint(double A, double B, double C, double D, double E, double F)
 {
-    vector<double> solution = solveQuadraticEquation(4 * A * A * B - A * C * C, 4 * A * B * D - 2 * A * C * E, B * D * D - C * D * E + C * C * F);
-    vector<pair<double, double>> extreme_points;
+    vector<double> solution = solveQuadraticEquation(4 * A * A * B - A * C * C, 4 * A * B * D - 2 * A * C * E, B * D * D - C * D * E + C * C * F);  /* 通过数学计算得到的极值点的横坐标 */
+    vector<pair<double, double>> extreme_points;    /* 极值点坐标 */
+    /* 对于上下极值点, 存在横坐标相同和不相同两种情况, 分别计算纵坐标 */
     if (solution.size() == 2) {
         extreme_points.push_back(make_pair(solution.at(0), -(2 * A * solution.at(0) + D) / C));
         extreme_points.push_back(make_pair(solution.at(1), -(2 * A * solution.at(1) + D) / C));
@@ -343,6 +344,7 @@ vector<pair<double, double>> calcExtremePoint(double A, double B, double C, doub
         extreme_points.push_back(make_pair(solution.at(0), sqrt((-4 * A * B * solution.at(0) * solution.at(0) - 4 * B * D * solution.at(0) - 4 * B * F + E * E) / (4 * B * B)) - E / (2 * B)));
         extreme_points.push_back(make_pair(solution.at(0), -sqrt((-4 * A * B * solution.at(0) * solution.at(0) - 4 * B * D * solution.at(0) - 4 * B * F + E * E) / (4 * B * B)) - E / (2 * B)));
     }
+    /* 左右极值点的横坐标必然不同 */
     solution = solveQuadraticEquation(4 * A * B - C * C, 4 * B * D - 2 * C * E, 4 * B * F - E * E);
     extreme_points.push_back(make_pair(solution.at(0), -(C * solution.at(0) + E) / (2 * B)));
     extreme_points.push_back(make_pair(solution.at(1), -(C * solution.at(1) + E) / (2 * B)));
