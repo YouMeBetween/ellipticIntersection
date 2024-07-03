@@ -227,19 +227,22 @@ int main()
 
 vector<pair<double, double>> getEllipse(double &A, double &B, double &C, double &D, double &E, double &F)
 {
-    static int cont = 1;
-    double h, k, a, b, theta;
-    bool need_retry = false;
-    vector<pair<double, double>> extreme_points;
+    static int cont = 1;        /* 当前输入的椭圆序号 */
+    double h, k, a, b, theta;   /* 椭圆圆心横坐标, 椭圆圆心纵坐标, 长轴长, 短轴长, 长轴与x轴夹角 */
+    bool need_retry = false;    /* 是否需要重新输入 */
+    vector<pair<double, double>> extreme_points;    /* 椭圆的几点坐标 */
     cout << "请输入第" << cont << "个椭圆的椭圆心横坐标、椭圆心纵坐标、长轴长、短轴长、长轴与x轴夹角，以空格为分隔\n";
     while (true) {
         cin >> h >> k >> a >> b >> theta;
+        /* 在每次读取完成后清空缓冲区, 避免读取到上一次输入的多余参数 */
         cin.sync();
+        /* 如果输入非法内容, 例如输入了字母, 则清除cin的异常标志并要求重新输入 */
         if (cin.rdstate() != 0) {
             cout << "输入异常，请重新输入\n";
             cin.clear();
             continue;
         }
+        /* 如果输入的参数不符合要求, 则进行相应提示并要求重新输入 */
         if (a < 0) {
             cout << "输入的长轴长小于0\n";
             need_retry = true;
@@ -261,6 +264,7 @@ vector<pair<double, double>> getEllipse(double &A, double &B, double &C, double 
             need_retry = false;
             continue;
         }
+        /* 根据输入的参数计算椭圆的一般方程 */
         a /= 2;
         b /= 2;
         theta = theta * M_PI / 180;
@@ -271,12 +275,15 @@ vector<pair<double, double>> getEllipse(double &A, double &B, double &C, double 
         E = -(2 * C * k + B * h);
         F = A * h * h + B * h * k + C * k * k - 1;
         swap(B, C);
+        /* 如果计算得到的一般方程无法构成椭圆, 则进行提示并要求重新输入 */
         if (!isEllipse(A, B, C, D, E, F)) {
             cout << "参数无法构成椭圆，请重新输入\n";
             continue;
         }
+        /* 输入完成后跳出输入循环 */
         break;
     }
+    /* 计算椭圆的极值点坐标 */
     extreme_points = calcExtremePoint(A, B, C, D, E, F);
     extreme_points = sortExtremePoint(extreme_points);
     cont++;
