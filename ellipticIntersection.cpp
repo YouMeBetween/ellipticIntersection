@@ -292,10 +292,12 @@ vector<pair<double, double>> getEllipse(double &A, double &B, double &C, double 
 
 vector<pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>> getArcsPairs(vector<pair<double, double>> extreme_points0, vector<pair<double, double>> extreme_points1)
 {
-    vector<pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>> arcs_pairs;
-    vector<pair<pair<double, double>, pair<double, double>>> arcs0, arcs1;
+    vector<pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>>> arcs_pairs;    /* 弧对的集合 */
+    vector<pair<pair<double, double>, pair<double, double>>> arcs0, arcs1;  /* 两个椭圆各自的四个单调弧 */
+    /* 分别获取两个椭圆的四个单调弧 */
     arcs0 = getArcs(extreme_points0);
     arcs1 = getArcs(extreme_points1);
+    /* 将两个椭圆的四个单调弧两两组合成16个弧对 */
     for (auto iter0 = arcs0.begin(); iter0 != arcs0.end(); iter0++) {
         for (auto iter1 = arcs1.begin(); iter1 != arcs1.end(); iter1++) {
             arcs_pairs.push_back(make_pair(*iter0, *iter1));
