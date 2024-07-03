@@ -319,7 +319,7 @@ vector<pair<pair<double, double>, pair<double, double>>> getArcs(vector<pair<dou
 
 bool isEllipse(double A, double B, double C, double D, double E, double F)
 {
-    double P = D / 2, Q = E / 2, I1, I2, I3;
+    double P = D / 2, Q = E / 2, I1, I2, I3;    /* 圆锥曲线判别式需要用到的参数 */
     swap(B, C);
     B /= 2;
     I1 = A + C;
