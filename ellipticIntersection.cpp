@@ -9,8 +9,8 @@
 using namespace std;
 
 constexpr double ZERO = 1e-6;                   /* 判断变量是否等于0的精度阈值 */
-constexpr double Y_ACCURACY_THRESHOLD = 8e-4;   /* 交点y轴方向的精度阈值 */
-constexpr double SK_ACCURACY_THRESHOLD = 1e-6;  /* 判断ak和bk是否相等的精度阈值 */
+constexpr double Y_ACCURACY_THRESHOLD = 1e-9;   /* 交点y轴方向的精度阈值 */
+constexpr double SK_ACCURACY_THRESHOLD = 1e-9;  /* 判断ak和bk是否相等的精度阈值 */
 
 /**
  * @brief 从控制台读取椭圆信息并获取四个极值点坐标(按顺时针排序)
