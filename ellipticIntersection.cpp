@@ -367,8 +367,11 @@ vector<double> solveQuadraticEquation(double a, double b, double c)
 
 vector<pair<double, double>> sortExtremePoint(vector<pair<double, double>> extreme_points)
 {
+    /* 将纵坐标最大的极值点(上极值点)放到第一位 */
     iter_swap(extreme_points.begin(), max_element(extreme_points.begin(), extreme_points.end(), [](pair<double, double> a, pair<double, double> b) { return a.second < b.second; }));
+    /* 将横坐标最大的极值点(右极值点)放到第二位 */
     iter_swap(extreme_points.begin() + 1, max_element(extreme_points.begin() + 1, extreme_points.end(), [](pair<double, double> a, pair<double, double> b) { return a.first < b.first; }));
+    /* 将纵坐标最小的极值点(下极值点)放到第三位 */
     iter_swap(extreme_points.begin() + 2, min_element(extreme_points.begin() + 2, extreme_points.end(), [](pair<double, double> a, pair<double, double> b) { return a.second < b.second; }));
     return extreme_points;
 }
