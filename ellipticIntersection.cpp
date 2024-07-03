@@ -308,7 +308,8 @@ vector<pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, 
 
 vector<pair<pair<double, double>, pair<double, double>>> getArcs(vector<pair<double, double>> extreme_points)
 {
-    vector<pair<pair<double, double>, pair<double, double>>> arcs;
+    vector<pair<pair<double, double>, pair<double, double>>> arcs;  /* 弧的集合 */
+    /* 按顺时针顺序, 从右上角的弧开始将弧放入弧的集合中 */
     for (auto iter = extreme_points.begin(); iter != extreme_points.end() - 1; iter++) {
         arcs.push_back(make_pair(*iter, *(iter + 1)));
     }
