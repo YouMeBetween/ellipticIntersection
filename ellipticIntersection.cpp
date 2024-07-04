@@ -531,6 +531,7 @@ vector<double> getRectangle(pair<pair<double, double>, pair<double, double>> arc
 
 void addIntersection(vector<pair<double, double>> &intersections, pair<double, double> point)
 {
+    /* 如果所要加入的点坐标已经在容器中, 则不将其加入到容器中 */
     if (find_if(intersections.begin(), intersections.end(), [point](pair<double, double> stored_point) { return abs(stored_point.first - point.first) <= ZERO && abs(stored_point.second - point.second) <= ZERO; }) == intersections.end()) {
         intersections.push_back(point);
     }
