@@ -358,6 +358,7 @@ vector<double> solveQuadraticEquation(double a, double b, double c)
     if (delta > 0) {
         result.push_back((-b + sqrt(delta)) / (2 * a));
         result.push_back((-b - sqrt(delta)) / (2 * a));
+        /* 保证两个解按照降序排列 */
         sort(result.begin(), result.end(), [](double a, double b) { return a > b; });
     } else if (abs(delta) <= ZERO) {
         result.push_back(-b / (2 * a));
