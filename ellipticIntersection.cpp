@@ -566,6 +566,15 @@ void XLessThan0(pair<pair<pair<double, double>, pair<double, double>>, pair<pair
 
 double xkWhenSkEqual0(pair<pair<pair<double, double>, pair<double, double>>, pair<pair<double, double>, pair<double, double>>> arcs_pair, double x0, double x1, double a0, double b0, double A0, double B0, double C0, double D0, double E0, double F0, vector<pair<double, double>> extreme_points0, double A1, double B1, double C1, double D1, double E1, double F1, vector<pair<double, double>> extreme_points1)
 {
+    /**
+     * xk   二分法求解时的中点
+     * FPk  第一个椭圆弧在xk处的纵坐标
+     * FQk  第二个椭圆弧在xk处的纵坐标
+     * ak   第一个椭圆弧在xk处的切矢方向
+     * bk   第二个椭圆弧在xk处的切矢方向
+     * sk   ak - sk
+     * s0   a0 - b0
+     */
     double xk, FPk, FQk, ak, bk, sk, s0;
     xk = (x0 + x1) / 2;
     FPk = getFx(xk, arcs_pair.first, A0, B0, C0, D0, E0, F0);
@@ -574,6 +583,7 @@ double xkWhenSkEqual0(pair<pair<pair<double, double>, pair<double, double>>, pai
     bk = getAngle(xk, FQk, extreme_points1.at(3).first, arcs_pair.second, A1, B1, C1, D1, E1, F1);
     s0 = a0 - b0;
     sk = ak - bk;
+    /* 使用二分法求解 */
     if (abs(sk) <= SK_ACCURACY_THRESHOLD) {
         return xk;
     }
