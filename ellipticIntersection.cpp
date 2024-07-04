@@ -520,7 +520,8 @@ double getAngle(double x, double y, double left, pair<pair<double, double>, pair
 
 vector<double> getRectangle(pair<pair<double, double>, pair<double, double>> arc)
 {
-    vector<double> rectangle;
+    vector<double> rectangle;   /* 矩形的四个边界坐标 */
+    /* 将矩形的边界坐标按照上边界、右边界、下边界、左边界的顺序放入容器中 */
     rectangle.push_back(max(arc.first.second, arc.second.second));
     rectangle.push_back(max(arc.first.first, arc.second.first));
     rectangle.push_back(min(arc.first.second, arc.second.second));
