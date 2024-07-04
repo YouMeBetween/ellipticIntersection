@@ -493,9 +493,11 @@ int getArcNo(pair<pair<double, double>, pair<double, double>> arc)
 
 double getAngle(double x, double y, double left, pair<pair<double, double>, pair<double, double>> arc, double A, double B, double C, double D, double E, double F)
 {
-    int arc_no = getArcNo(arc);
-    double derivative, radian;
+    int arc_no = getArcNo(arc); /* 椭圆弧的编号 */
+    double derivative, radian;  /* 椭圆弧在(x, y)处的导数, 切矢方向(弧度表示) */
+    /* 如果导数为无穷大, 表示所求点位于椭圆的左右极值点, 切矢方向需要特殊计算 */
     if (abs(C * x + 2 * B * y + E) <= ZERO) {
+        /* 根据所求点位于椭圆的左极值点或右极值点以及所求椭圆弧的编号决定角度 */
         if (abs(x - left) <= ZERO) {
             if (arc_no == 3) {
                 return -90;
@@ -510,6 +512,7 @@ double getAngle(double x, double y, double left, pair<pair<double, double>, pair
             }
         }
     }
+    /* 求椭圆弧在(x, y)处的导数, 反三角求出弧度, 最后转换成角度 */
     derivative = (-2 * A * x - C * y - D) / (C * x + 2 * B * y + E);
     radian = atan(derivative);
     return radian * 180 / M_PI;
