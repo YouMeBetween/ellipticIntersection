@@ -461,16 +461,17 @@ void calcIntersection(pair<pair<pair<double, double>, pair<double, double>>, pai
 
 double getFx(double x, pair<pair<double, double>, pair<double, double>> arc, double A, double B, double C, double D, double E, double F)
 {
-    int arc_no = getArcNo(arc);
-    vector<double> solution;
+    int arc_no = getArcNo(arc); /* 椭圆弧的编号 */
+    vector<double> solution;    /* 椭圆在横坐标x处的纵坐标 */
     solution = solveQuadraticEquation(B, C * x + E, A * x * x + D * x + F);
+    /* 如果是第一或第四段弧, 就采用较大的解, 如果是第二或第三段弧, 就采用较小的解 */
     if (solution.size() == 2) {
         if (arc_no == 1 || arc_no == 4) {
             return solution.at(0);
         } else {
             return solution.at(1);
         }
-    } else {
+    } else {    /* 如果只有一个解, 说明x处于椭圆的左右极点, 直接使用解作为结果 */
         return solution.at(0);
     }
 }
